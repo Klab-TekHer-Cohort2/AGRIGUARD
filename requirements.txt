@@ -8,6 +8,28 @@ pydantic>=2.6.0
 httpx>=0.27.0
 python-dotenv>=1.0.0
 
+# ── AI / ML (Colab component) ────────────────────────────────────────────────
+pandas>=2.0
+numpy>=1.24
+scikit-learn>=1.3
+matplotlib>=3.7
+Pillow>=10.0
+
+# ── Voice AI ─────────────────────────────────────────────────────────────────
+# STT — real offline speech recognition (no API key required)
+# Uncomment to install: openai-whisper also needs ffmpeg
+# openai-whisper>=20231117
+# Also: apt-get install -y ffmpeg  (Colab) or brew install ffmpeg (macOS)
+#
+# TTS — gTTS requires internet; pyttsx3 is fully offline
+gTTS>=2.5
+pyttsx3>=2.90
+nest-asyncio>=1.6
+
+# ── Optional semantic RAG ────────────────────────────────────────────────────
+# sentence-transformers>=2.7
+# faiss-cpu>=1.7
+
 # ── Testing ─────────────────────────────────────────────────────────────────
 pytest>=8.0.0
 pytest-asyncio>=0.23.0

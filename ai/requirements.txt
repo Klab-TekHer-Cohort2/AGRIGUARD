@@ -8,16 +8,24 @@ matplotlib>=3.7
 Pillow>=10.0
 python-dotenv>=1.0
 
-# Optional — semantic RAG with embeddings (section 13). The notebook installs
-# these in Colab; the pipeline falls back to keyword retrieval if they are absent.
+# ── Voice AI ─────────────────────────────────────────────────────────────────
+# STT: Whisper (real, offline, no API key). Also needs ffmpeg.
+# openai-whisper>=20231117   ← uncomment to enable real STT
+# apt-get install -y ffmpeg  ← run in Colab to install ffmpeg
+#
+# TTS: gTTS (requires internet, free) or pyttsx3 (fully offline).
+gTTS>=2.5
+pyttsx3>=2.90
+nest-asyncio>=1.6   # needed in Jupyter/Colab async contexts
+
+# ── Optional semantic RAG (section 13) ───────────────────────────────────────
+# The pipeline falls back to keyword retrieval if these are absent.
 sentence-transformers>=2.7
 faiss-cpu>=1.7
 
-# Optional — REAL computer-vision path (section 6). The default demo path uses
-# the SimulatedVisionClassifier (no torch needed). Only needed to run a trained
-# CNN via PlantVillageCNNClassifier.
+# ── Optional real computer-vision CNN (section 6) ────────────────────────────
 # torch>=2.0
 # torchvision>=0.15
 
-# Testing (local; Colab can skip if not running tests)
+# ── Testing (local; Colab can skip if not running tests) ─────────────────────
 pytest>=8.0
