@@ -48,10 +48,15 @@ except ImportError:
 
 
 # ── Whisper language code map ─────────────────────────────────────────────────
-# Whisper uses ISO 639-1 two-letter codes. "rw" is Kinyarwanda.
+# Whisper uses its own internal language list (not all ISO 639-1 codes).
+# "rw" (Kinyarwanda) is NOT in Whisper's tokenizer language list — passing it
+# raises ValueError: Unsupported language: rw.
+# Workaround: use None (auto-detect) for Kinyarwanda so Whisper attempts to
+# detect and transcribe the language on its own. Auto-detect handles Kinyarwanda
+# audio reasonably well even without an explicit language code.
 LANGUAGE_CODE_MAP = {
     "en": "en",
-    "rw": "rw",    # Kinyarwanda — Whisper supports it (quality varies)
+    "rw": None,    # Kinyarwanda — not in Whisper's list; use auto-detect instead
     "auto": None,  # None = Whisper auto-detects
 }
 
@@ -152,9 +157,10 @@ class WhisperSTT:
             "source": self.source,
             "model": self.model_name,
             "note": (
-                "Kinyarwanda (rw) recognition quality has not been validated "
-                "in Rwandan field conditions. Treat output as best-effort."
-                if detected_lang == "rw" else None
+                "Kinyarwanda (rw) is not in Whisper's language list — "
+                "auto-detect mode was used. Transcription quality depends on "
+                "audio clarity and has not been validated in Rwandan field conditions."
+                if detected_lang in ("rw", None) or language == "rw" else None
             ),
         }
 
