@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environment
+backend/venv/
+venv/
+.venv/
+
+# Environment & secrets
+.env
+backend/.env
+*.env.local
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploads (user data)
+backend/app/static/uploads/
+!backend/app/static/uploads/.gitkeep
+
+# Test & coverage artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+*.cover
+
+# IDE & OS
+.vscode/
+.idea/
+*.DS_Store
+Thumbs.db
+desktop.ini
+
+# Agent task artifacts (internal workflow state)
+.agents/
+
+# Logs
+*.log
+
+# Distribution
+*.tar.gz
+*.zip
