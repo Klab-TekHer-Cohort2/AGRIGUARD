@@ -1,0 +1,63 @@
+{
+  "expo": {
+    "name": "AgriGuard",
+    "slug": "agriguard",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1A6B3C"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "rw.agriguard.mobile"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1A6B3C"
+      },
+      "package": "rw.agriguard.mobile",
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "INTERNET"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "AgriGuard needs camera access to photograph your crops for AI diagnosis."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "AgriGuard needs photo library access to select crop images."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "AgriGuard uses your location to map crop problem reports."
+        }
+      ]
+    ],
+    "scheme": "agriguard",
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
