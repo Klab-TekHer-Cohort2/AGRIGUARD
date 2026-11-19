@@ -1,0 +1,17 @@
+report_id,farmer_id,crop,crop_id,problem,problem_id,category,confidence,severity,latitude,longitude,community,timestamp,is_prototype
+R001,F001,Maize,maize,Fall Armyworm,fall-armyworm,Pest,0.92,Moderate,-1.479,30.419,Kabarore,2026-11-17T07:47:38.324467Z,True
+R002,F002,Maize,maize,Fall Armyworm,fall-armyworm,Pest,0.9,Moderate,-1.4795,30.4195,Kabarore,2026-11-17T07:47:38.324467Z,True
+R003,F003,Maize,maize,Fall Armyworm,fall-armyworm,Pest,0.88,High,-1.48,30.42,Kabarore,2026-11-16T07:47:38.324467Z,True
+R004,F004,Maize,maize,Fall Armyworm,fall-armyworm,Pest,0.91,Moderate,-1.481,30.421,Kabarore,2026-11-16T07:47:38.324467Z,True
+R005,F005,Maize,maize,Fall Armyworm,fall-armyworm,Pest,0.93,High,-1.482,30.422,Kabarore,2026-11-15T07:47:38.324467Z,True
+R006,F001,Maize,maize,Fall Armyworm,fall-armyworm,Pest,0.89,Moderate,-1.4792,30.4192,Kabarore,2026-11-15T07:47:38.324467Z,True
+R007,F002,Maize,maize,Fall Armyworm,fall-armyworm,Pest,0.87,High,-1.4797,30.4197,Kabarore,2026-11-14T07:47:38.324467Z,True
+R008,F003,Maize,maize,Fall Armyworm,fall-armyworm,Pest,0.9,Moderate,-1.4802,30.4202,Kabarore,2026-11-14T07:47:38.324467Z,True
+R009,F004,Maize,maize,Fall Armyworm,fall-armyworm,Pest,0.92,High,-1.4812,30.4212,Kabarore,2026-11-13T07:47:38.324467Z,True
+R010,F005,Maize,maize,Fall Armyworm,fall-armyworm,Pest,0.91,Critical,-1.4822,30.4222,Kabarore,2026-11-13T07:47:38.324467Z,True
+R011,F001,Maize,maize,Fall Armyworm,fall-armyworm,Pest,0.9,High,-1.4794,30.4194,Kabarore,2026-11-12T07:47:38.324467Z,True
+R012,F002,Maize,maize,Fall Armyworm,fall-armyworm,Pest,0.89,High,-1.4799,30.4199,Kabarore,2026-11-12T07:47:38.324467Z,True
+R013,F006,Beans,beans,Bean Fly,bean-fly,Pest,0.74,Moderate,-1.51,30.43,Gatsibo,2026-11-16T07:47:38.324467Z,True
+R014,F007,Cassava,cassava,Cassava Mosaic Disease,cassava-mosaic-disease,Disease,0.86,High,-1.56,30.33,Nyagatare,2026-11-15T07:47:38.324467Z,True
+R015,F008,Irish Potato,irish-potato,Late Blight,late-blight,Disease,0.88,Critical,-2.07,30.25,Kayonza,2026-11-14T07:47:38.324467Z,True
+R016,F009,Tomato,tomato,,,Unknown,0.38,High,,,Rwamagana,2026-11-17T07:47:38.324467Z,True

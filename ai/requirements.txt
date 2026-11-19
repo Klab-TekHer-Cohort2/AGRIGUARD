@@ -1,0 +1,23 @@
+# AgriGuard AI & Data component — Google Colab / Python dependencies.
+#
+# Core (lightweight, always needed): the whole pipeline runs with just these.
+pandas>=2.0
+numpy>=1.24
+scikit-learn>=1.3
+matplotlib>=3.7
+Pillow>=10.0
+python-dotenv>=1.0
+
+# Optional — semantic RAG with embeddings (section 13). The notebook installs
+# these in Colab; the pipeline falls back to keyword retrieval if they are absent.
+sentence-transformers>=2.7
+faiss-cpu>=1.7
+
+# Optional — REAL computer-vision path (section 6). The default demo path uses
+# the SimulatedVisionClassifier (no torch needed). Only needed to run a trained
+# CNN via PlantVillageCNNClassifier.
+# torch>=2.0
+# torchvision>=0.15
+
+# Testing (local; Colab can skip if not running tests)
+pytest>=8.0

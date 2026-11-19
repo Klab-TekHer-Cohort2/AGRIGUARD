@@ -1,0 +1,10 @@
+farmer_id,name,latitude,longitude,phone,community,is_prototype
+F001,Mukamana Beatrice,-1.479,30.419,+250788111111,Kabarore,True
+F002,Habimana Jean,-1.4795,30.4195,+250788222222,Kabarore,True
+F003,Uwase Grace,-1.48,30.42,+250788333333,Kabarore,True
+F004,Nshimiyimana Eric,-1.481,30.421,+250788444444,Kabarore,True
+F005,Mukasine Aline,-1.482,30.422,+250788555555,Kabarore,True
+F006,Twizeyimana Paul,-1.51,30.43,+250788666666,Gatsibo,True
+F007,Ingabire Diane,-1.56,30.33,+250788777777,Nyagatare,True
+F008,Bizimana Claude,-2.07,30.25,+250788888888,Kayonza,True
+F009,Umutoni Olive,,,,Rwamagana,True
