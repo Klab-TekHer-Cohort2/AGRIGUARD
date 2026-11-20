@@ -109,3 +109,21 @@ coverage/
 
 # ── Logs ───────────────────────────────────────────────────────────────────
 logs/
+
+node_modules/
+frontend/dist/
+frontend/dist.working/
+frontend/app.working/
+frontend/src.working/
+frontend/*.backup
+frontend/.env
+frontend/*.log
+deploy/cloudflared.exe
+deploy/node_modules/
+deploy/.last-url.txt
+*.db
+.env
+
+frontend/*.back
+deploy/.tunnel.pid
+deploy/tunnel.log

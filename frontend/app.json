@@ -53,7 +53,9 @@
         {
           "locationAlwaysAndWhenInUsePermission": "AgriGuard uses your location to map crop problem reports."
         }
-      ]
+      ],
+      "expo-font",
+      "expo-secure-store"
     ],
     "scheme": "agriguard",
     "experiments": {

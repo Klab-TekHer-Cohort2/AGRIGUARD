@@ -9,12 +9,21 @@
  * The Backend handles all other AI analysis internally.
  */
 
-// Use environment variable or fallback for development
+// When EXPO_PUBLIC_BACKEND_URL is set to an empty string the app uses
+// relative URLs (/api/v1/...) so the proxy server can forward them correctly
+// through any public tunnel.  For local native dev, fall back to localhost.
+const _backendEnv = process.env.EXPO_PUBLIC_BACKEND_URL;
+const _aiEnv      = process.env.EXPO_PUBLIC_AI_URL;
+
 export const BACKEND_BASE_URL =
-  process.env.EXPO_PUBLIC_BACKEND_URL ?? 'http://localhost:8000';
+  (_backendEnv !== undefined && _backendEnv !== '')
+    ? _backendEnv
+    : (typeof window !== 'undefined' ? '' : 'http://localhost:8000');
 
 export const AI_SERVICE_BASE_URL =
-  process.env.EXPO_PUBLIC_AI_URL ?? 'http://localhost:5000';
+  (_aiEnv !== undefined && _aiEnv !== '')
+    ? _aiEnv
+    : (typeof window !== 'undefined' ? '' : 'http://localhost:5000');
 
 export const API_V1 = `${BACKEND_BASE_URL}/api/v1`;
 export const AI_API = `${AI_SERVICE_BASE_URL}/api/ai`;
