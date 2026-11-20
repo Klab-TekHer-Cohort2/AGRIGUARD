@@ -47,6 +47,8 @@ import { useTranslation } from '../../src/hooks/useTranslation';
 import { cropsApi, reportsApi, CropResponse, CropReportResponse } from '../../src/api/client';
 import { BACKEND_BASE_URL } from '../../src/api/config';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useDemoStore } from '../../src/demo/demoStore';
+import { DEMO_CROPS, buildDemoSubmittedReport } from '../../src/demo/data';
 
 // Common symptoms a farmer might observe
 const COMMON_SYMPTOMS = [
@@ -62,6 +64,7 @@ export default function ReportNewScreen() {
   const router = useRouter();
   const { t, language } = useTranslation();
   const insets = useSafeAreaInsets();
+  const isDemoMode = useDemoStore((s) => s.isDemoMode);
 
   // Step state
   const [step, setStep] = useState<Step>(1);
@@ -85,11 +88,16 @@ export default function ReportNewScreen() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (isDemoMode) {
+      setCrops(DEMO_CROPS);
+      setCropsLoading(false);
+      return;
+    }
     cropsApi.list().then((cs) => {
       setCrops(cs);
       setCropsLoading(false);
     }).catch(() => setCropsLoading(false));
-  }, []);
+  }, [isDemoMode]);
 
   const pickImage = async () => {
     const perm = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -150,7 +158,23 @@ export default function ReportNewScreen() {
     setError(null);
 
     try {
-      // Create report
+      if (isDemoMode) {
+        // Demo submission — simulate network delay, return sample result
+        await new Promise((r) => setTimeout(r, 1200 + Math.random() * 800));
+        const demoResult = buildDemoSubmittedReport(
+          selectedCrop.id,
+          symptoms,
+          description,
+          severity,
+          district,
+          sector,
+        );
+        setResult(demoResult);
+        setStep('result');
+        return;
+      }
+
+      // Live submission
       const report = await reportsApi.create({
         crop_id: selectedCrop.id,
         channel: 'APP',
@@ -163,28 +187,19 @@ export default function ReportNewScreen() {
         longitude: lng,
       });
 
-      // Upload photo if provided
       if (photoUri) {
         try {
           const form = new FormData();
-          form.append('file', {
-            uri: photoUri,
-            name: 'crop_photo.jpg',
-            type: 'image/jpeg',
-          } as unknown as Blob);
+          form.append('file', { uri: photoUri, name: 'crop_photo.jpg', type: 'image/jpeg' } as unknown as Blob);
           await reportsApi.uploadImage(report.id, form);
         } catch {
-          // non-fatal — report submitted, photo failed
+          // non-fatal — notify user
+          Alert.alert('', t.report.photoError);
         }
       }
 
-      // Reload full report (with AI result)
       let full = report;
-      try {
-        full = await reportsApi.getByCode(report.report_code);
-      } catch {
-        // use initial response
-      }
+      try { full = await reportsApi.getByCode(report.report_code); } catch { /* use initial */ }
 
       setResult(full);
       setStep('result');
@@ -477,7 +492,20 @@ function AIResultScreen({
   const { t, language } = useTranslation();
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const isDemoMode = useDemoStore((s) => s.isDemoMode);
   const ai = result.ai_result;
+
+  const handleContactAgronomist = () => {
+    if (isDemoMode) {
+      Alert.alert(
+        'Contact Agronomist',
+        'Sample contact: Rwanda Agriculture Board Extension Line\n+250 788 300 100\n\nIn a live deployment, this connects you to your assigned agronomist.',
+        [{ text: 'OK', style: 'cancel' }],
+      );
+    } else {
+      import('react-native').then(({ Linking }) => Linking.openURL('tel:+250788300100'));
+    }
+  };
 
   return (
     <ScrollView
@@ -552,7 +580,7 @@ function AIResultScreen({
           {/* Contact agronomist CTA */}
           <Button
             label={t.aiResult.contactAgronomist}
-            onPress={() => {}}
+            onPress={handleContactAgronomist}
             variant="outline"
             fullWidth
             style={{ marginTop: Spacing.sm }}
@@ -583,17 +611,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: Spacing.base,
     paddingVertical: Spacing.sm,
+    backgroundColor: Colors.backgroundCard,
     borderBottomWidth: 1,
     borderBottomColor: Colors.borderLight,
+    ...Shadow.xs,
   },
-  backBtn: { width: 40, height: 40, alignItems: 'center', justifyContent: 'center' },
-  backText: { fontSize: 22, color: Colors.charcoal },
+  backBtn: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 22, backgroundColor: Colors.backgroundSage },
+  backText: { fontSize: 20, color: Colors.charcoal, fontFamily: FontFamily.medium },
   progressWrap: { flexDirection: 'row', gap: 6 },
   progressDot: {
-    width: 24,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: Colors.border,
+    width: 28,
+    height: 5,
+    borderRadius: 3,
+    backgroundColor: Colors.borderLight,
   },
   progressDotActive: { backgroundColor: Colors.secondaryEmerald },
   scroll: { flex: 1, paddingHorizontal: Spacing.base },
@@ -608,6 +638,7 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.regular,
     fontSize: FontSize.body,
     color: Colors.charcoalMuted,
+    lineHeight: 22,
     marginBottom: Spacing.xl,
   },
   cropGrid: {
@@ -623,18 +654,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: Spacing.sm,
     borderWidth: 1.5,
-    borderColor: Colors.border,
-    ...Shadow.xs,
+    borderColor: Colors.borderLight,
+    ...Shadow.sm,
   },
   cropCardActive: {
     borderColor: Colors.secondaryEmerald,
-    backgroundColor: Colors.successBg,
+    backgroundColor: Colors.mintBg,
   },
   cropIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 14,
-    backgroundColor: Colors.backgroundSage,
+    width: 52,
+    height: 52,
+    borderRadius: 16,
+    backgroundColor: Colors.mintBg,
     alignItems: 'center',
     justifyContent: 'center',
   },
