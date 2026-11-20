@@ -123,3 +123,7 @@ deploy/node_modules/
 deploy/.last-url.txt
 *.db
 .env
+
+frontend/*.back
+deploy/.tunnel.pid
+deploy/tunnel.log
