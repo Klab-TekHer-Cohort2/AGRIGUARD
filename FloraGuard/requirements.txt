@@ -1,0 +1,6 @@
+fastapi[standard]
+sqlalchemy
+pydantic-settings
+python-multipart
+httpx
+pytest
