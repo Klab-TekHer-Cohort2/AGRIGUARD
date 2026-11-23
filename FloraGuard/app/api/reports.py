@@ -8,7 +8,7 @@ from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, s
 from sqlalchemy.orm import Session
 
 from app.db.database import get_db
-from app.db.models import Report
+from app.db.models import Report, RiskAssessment, WeatherObservation
 from app.schemas.report import ReportResponse
 from app.services.alert_service import AlertService
 from app.services.report_service import ReportService
@@ -102,6 +102,33 @@ def create_report(
             risk_score=assessment.risk_score,
             reasons=assessment.reasons,
         )
+
+    # Persist risk assessment
+    ra = RiskAssessment(
+        area=area,
+        problem_type=problem_type,
+        risk_score=assessment.risk_score,
+        risk_level=assessment.risk_level.value,
+        contributing_report_count=assessment.contributing_report_count,
+        reasons="\n".join(assessment.reasons),
+        weather_temperature=assessment.weather_temperature,
+        weather_humidity=assessment.weather_humidity,
+        weather_available=assessment.weather_available,
+    )
+    db.add(ra)
+    db.commit()
+
+    # Persist weather observation if available
+    if weather is not None and weather.available and weather.is_valid and latitude is not None and longitude is not None:
+        wo = WeatherObservation(
+            latitude=latitude,
+            longitude=longitude,
+            temperature=weather.temperature,
+            humidity=weather.humidity,
+            source=weather.source,
+        )
+        db.add(wo)
+        db.commit()
 
     return ReportService.report_to_response(report)
 
